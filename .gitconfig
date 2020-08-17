@@ -189,6 +189,10 @@
 
 	insteadOf = "gist:"
 
-[init]
+#[init]
+#
+#	templateDir = ~/.config/git/template/
 
-	templateDir = ~/.config/git/template/
+[user]
+	email = timothy.sanders@menumavin.com
+	name = Timothy Sanders
