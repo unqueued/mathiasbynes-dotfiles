@@ -193,6 +193,11 @@
 #
 #	templateDir = ~/.config/git/template/
 
+# Wait, should this go in ~/.extra?
+# I should just have a ring0 repo for this...
+# See TODO.md for how to do this... for how to resolve this
+# TODO: use conditional include...
+
 [user]
 	email = timothy.sanders@menumavin.com
 	name = Timothy Sanders
