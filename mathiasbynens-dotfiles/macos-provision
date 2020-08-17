@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "ARE YOU SURE YOU WANT TO RUN THIS??"
+exit
+
 # ~/.macos — https://mths.be/macos
 
 # Close any open System Preferences panes, to prevent them from overriding
