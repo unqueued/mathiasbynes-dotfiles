@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+
+# This should really be a toggle of some kind
+alias gitprompt="do_git_prompt"
+alias nogitprompt="do_not_git_prompt"
+
+# Git aliases
+alias g='git'
+alias gs='g status'
+alias gc='g commit'
+alias gac='gc -a -m "`date`"'
+#alias gmf='git checkout master && git merge --no-ff -'
+alias gmp='git merge --no-ff -'
+alias git-purge-all='git reflog expire --expire-unreachable=now --all && git gc --prune=now --aggressive && echo "btw delete git annex index to completely purge" '
+
+alias fuji-vnc='open "vnc://toh-dt-sjones.local"'
+
+alias random_hash='head -n 4096 /dev/urandom | openssl sha1 | cut -c 1-8'
+
+alias iso8601-ish='date "+%Y-%m-%d_%H%M"'
+
+# For control of nova display
+alias nova-externaldisplay-on="DISPLAY=:0 xrandr --output HDMI1 --primary --mode 1920x1080"
+alias nova-internaldisplay-off="DISPLAY=:0 xrandr --output eDP1 --off"
+alias nova-internaldisplay-on="DISPLAY=:0 xrandr --output eDP1 --primary --mode 1920x1080"
+
+alias nova-battery="cat /sys/class/power_supply/BAT0/capacity"
+
+alias temp-open-cabinet="curl http://localhost:1729/cabinet/?create"
+
+
+# From https://gist.github.com/catleeball/49ffcbea41c50f2c26bdd45c8dc47482
+
+function git-cherry-pit {
+    # From https://sethrobertson.github.io/GitFixUm/fixup.html#remove_deep
+    # Removes a commit from git history, similar to using drop in rebase -i
+    if [ "$#" -ne 1 ]; then
+      echo "Usage: $ git-cherry-pit SHA"
+    fi
+    git rebase -p --onto $1^ $1
+}
+
+xstat() {
+  for target in "${@}"; do
+    inode=$(ls -di "${target}" | cut -d ' ' -f 1)
+    fs=$(df "${target}"  | tail -1 | awk '{print $1}')
+    crtime=$(sudo debugfs -R 'stat <'"${inode}"'>' "${fs}" 2>/dev/null | 
+    grep -oP 'crtime.*--\s*\K.*')
+    printf "%s\t%s\n" "${crtime}" "${target}"
+  done
+}
+
+# hard coded DISPLAY might be problematic. Don't miss it.
+alias e16-composite-off='DISPLAY=:0 eesh set compmgr.enable 0 && DISPLAY=:0 eesh restart'
+alias e16-composite-on='DISPLAY=:0 eesh set compmgr.enable 1 && DISPLAY=:0 eesh restart'
+
+# emerge -tvN world -p
+# emerge -ptuvDN world
+
+# For parsing qr codes
+alias desktop2qr='scrot qr-temp.png && zbarimg --raw qr-temp.png ; rm qr-temp.png'
+
+# rsync as drop in replacement for scp
+# https://news.ycombinator.com/item?id=23579107
+alias scp='rsync -av '
+alias smv='rsync -av --remove-source-files '
+
+
+test -f ~/.aliases.ring0 && source ~/.aliases.ring0
+
