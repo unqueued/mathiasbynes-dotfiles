@@ -1,79 +1,83 @@
 #!/usr/bin/env bash
 
-# Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
+# TODO clean up tput or ansi or whatever. See sexybash for examples
+
+# Determine what type of terminal we are using for `tput`
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]]  && infocmp gnome-256color >/dev/null 2>&1; then export TERM=gnome-256color
+elif [[ $TERM != dumb ]] && infocmp xterm-256color >/dev/null 2>&1; then export TERM=xterm-256color
+fi
+
+export CLICOLOR=1
+
+export GITPROMPT=0
 
 
-# This should really be a toggle of some kind
-alias gitprompt="do_git_prompt"
-alias nogitprompt="do_not_git_prompt"
-
-# Git aliases
-alias g='git'
-alias gs='g status'
-alias gc='g commit'
-alias gac='gc -a -m "`date`"'
-#alias gmf='git checkout master && git merge --no-ff -'
-alias gmp='git merge --no-ff -'
-alias git-purge-all='git reflog expire --expire-unreachable=now --all && git gc --prune=now --aggressive && echo "btw delete git annex index to completely purge" '
-
-alias fuji-vnc='open "vnc://toh-dt-sjones.local"'
-
-alias random_hash='head -n 4096 /dev/urandom | openssl sha1 | cut -c 1-8'
-
-alias iso8601-ish='date "+%Y-%m-%d_%H%M"'
-
-# For control of nova display
-alias nova-externaldisplay-on="DISPLAY=:0 xrandr --output HDMI1 --primary --mode 1920x1080"
-alias nova-internaldisplay-off="DISPLAY=:0 xrandr --output eDP1 --off"
-alias nova-internaldisplay-on="DISPLAY=:0 xrandr --output eDP1 --primary --mode 1920x1080"
-
-alias nova-battery="cat /sys/class/power_supply/BAT0/capacity"
-
-alias temp-open-cabinet="curl http://localhost:1729/cabinet/?create"
-
-
-# From https://gist.github.com/catleeball/49ffcbea41c50f2c26bdd45c8dc47482
-
-function git-cherry-pit {
-    # From https://sethrobertson.github.io/GitFixUm/fixup.html#remove_deep
-    # Removes a commit from git history, similar to using drop in rebase -i
-    if [ "$#" -ne 1 ]; then
-      echo "Usage: $ git-cherry-pit SHA"
-    fi
-    git rebase -p --onto $1^ $1
+function nonzero_return() {
+	RETVAL=$?
+	[ $RETVAL -ne 0 ] && echo "$RETVAL"
 }
 
-xstat() {
-  for target in "${@}"; do
-    inode=$(ls -di "${target}" | cut -d ' ' -f 1)
-    fs=$(df "${target}"  | tail -1 | awk '{print $1}')
-    crtime=$(sudo debugfs -R 'stat <'"${inode}"'>' "${fs}" 2>/dev/null | 
-    grep -oP 'crtime.*--\s*\K.*')
-    printf "%s\t%s\n" "${crtime}" "${target}"
-  done
+# get current branch in git repo
+function parse_git_branch() {
+	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+	if [ ! "${BRANCH}" == "" ]
+	then
+		STAT=`parse_git_dirty`
+		echo "[${BRANCH}${STAT}]"
+	else
+		echo ""
+	fi
 }
 
-# hard coded DISPLAY might be problematic. Don't miss it.
-alias e16-composite-off='DISPLAY=:0 eesh set compmgr.enable 0 && DISPLAY=:0 eesh restart'
-alias e16-composite-on='DISPLAY=:0 eesh set compmgr.enable 1 && DISPLAY=:0 eesh restart'
+# get current status of git repo
+function parse_git_dirty {
+	status=`git status 2>&1 | tee`
+	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
+	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+	bits=''
+	if [ "${renamed}" == "0" ]; then
+		bits=">${bits}"
+	fi
+	if [ "${ahead}" == "0" ]; then
+		bits="*${bits}"
+	fi
+	if [ "${newfile}" == "0" ]; then
+		bits="+${bits}"
+	fi
+	if [ "${untracked}" == "0" ]; then
+		bits="?${bits}"
+	fi
+	if [ "${deleted}" == "0" ]; then
+		bits="x${bits}"
+	fi
+	if [ "${dirty}" == "0" ]; then
+		bits="!${bits}"
+	fi
+	if [ ! "${bits}" == "" ]; then
+		echo " ${bits}"
+	else
+		echo ""
+	fi
+}
 
-# emerge -tvN world -p
-# emerge -ptuvDN world
+function do_git_prompt {
+	export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\`parse_git_branch\`\\$\`nonzero_return\` "
+}
 
-# For parsing qr codes
-alias desktop2qr='scrot qr-temp.png && zbarimg --raw qr-temp.png ; rm qr-temp.png'
-
-# rsync as drop in replacement for scp
-# https://news.ycombinator.com/item?id=23579107
-alias scp='rsync -av '
-alias smv='rsync -av --remove-source-files '
+function do_not_git_prompt {
+	export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "
+}
 
 
-test -f ~/.aliases.ring0 && source ~/.aliases.ring0
+if [ "${GITPROMPT}" == "1" ]
+	then
+		do_git_prompt
+	else
+		do_not_git_prompt
+fi
+
 
