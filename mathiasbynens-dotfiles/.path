@@ -1,5 +1,10 @@
-export PATH="/usr/local/bin:$PATH"
-export PATH="~/bin:$PATH"
+# This should not be for ~/bin and /usr/local/bin
+
+# Python
+export PATH="$HOME/.local/bin:$PATH"
+
+# node.js
+export PATH="$HOME/node_modules/.bin:$PATH"
 
 # Added perl5  paths
 #PATH="~/perl5/bin${PATH:+:${PATH}}"; export PATH;

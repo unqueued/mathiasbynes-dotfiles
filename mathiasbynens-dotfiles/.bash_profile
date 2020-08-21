@@ -1,5 +1,7 @@
+# TODO: I'd really like to divide some of these into modules...
+# Can have a modules folder that can be stowed safely by making it nested three levels in...
+
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -7,6 +9,10 @@ export PATH="$HOME/bin:$PATH";
 for file in ~/.{path,bash_prompt,exports,aliases,functions,bash_completion,extra}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
+
+# Global stuff
+export PATH="$HOME/bin:/usr/local/bin:$PATH";
+
 unset file;
 
 # Case-insensitive globbing (used in pathname expansion)
