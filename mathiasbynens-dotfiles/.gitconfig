@@ -82,12 +82,17 @@
 	# Show the user email for the current repository.
 	whoami = config user.email
 
+	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --show-signature
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
 	whitespace = fix
 
 [core]
+
+	pager = less -F -X
 
 	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
@@ -193,6 +198,24 @@
 #
 #	templateDir = ~/.config/git/template/
 
+# This is where you should put your personal info...
 [include]
 	path = ~/.gitconfig-user ;
+
+[protocol "keybase"]
+	allow = always
+[protocol "gcrypt"]
+	allow = always
+
+[annex]
+	genmetadata = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[cola]
+	spellcheck = false
 
