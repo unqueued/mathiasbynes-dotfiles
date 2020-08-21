@@ -1,7 +1,28 @@
 # TODO: I'd really like to divide some of these into modules...
 # Can have a modules folder that can be stowed safely by making it nested three levels in...
 
-# Add `~/bin` to the `$PATH`
+
+# This should really be in its own file, and should be loaded first...
+# Should also fall back to using uname, or other detection means...
+# Via: https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
+# if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+#         # ...
+# elif [[ "$OSTYPE" == "darwin"* ]]; then
+#         # Mac OSX
+# elif [[ "$OSTYPE" == "cygwin" ]]; then
+#         # POSIX compatibility layer and Linux environment emulation for Windows
+# elif [[ "$OSTYPE" == "msys" ]]; then
+#         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+# elif [[ "$OSTYPE" == "win32" ]]; then
+#         # I'm not sure this can happen.
+# elif [[ "$OSTYPE" == "freebsd"* ]]; then
+#         # ...
+# else
+#         # Unknown.
+		  # uname or whatever...
+# fi
+
+
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

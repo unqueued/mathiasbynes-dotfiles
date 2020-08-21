@@ -13,7 +13,8 @@ export PATH="$HOME/node_modules/.bin:/usr/local/lib/node_modules/.bin:$PATH"
 # root and user
 
 # Go
-# root and user
+export PATH="$PATH/go/bin:$PATH"
+# root
 
 # Ruby
 # https://wiki.archlinux.org/index.php/Ruby
@@ -28,5 +29,14 @@ PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
 #PERL_MB_OPT="--install_base \"~/perl5\""; export PERL_MB_OPT;
 #PERL_MM_OPT="INSTALL_BASE="~/perl5"; export PERL_MM_OPT;
 
-# homebrew coreutils
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+# homebrew coreutils, conditional
+coreutils_path="/usr/local/opt/coreutils/libexec/gnubin"
+[ -r "$coreutils_path" ] && [ -d "$coreutils_path" ] && PATH="$coreutils_path:$PATH"
+
+# TODO:
+# Make pathcheck function or something...
+# Maybe should break out into individual files, just to make diffing easier...
+
+# TODO: Detect OS, conditional sourcing
+# https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
+
