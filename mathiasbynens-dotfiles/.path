@@ -2,6 +2,9 @@
 
 # TODO: Should I only conditionally add these to path if they exist?
 
+# TODO: A good pattern for modules would be that each one just sets like an OS constraint variable and a path variable, and then the rest is handled by a loop... this is a good idea...
+
+
 # Python
 export PATH="$HOME/.local/bin:$PATH"
 # root?
@@ -10,11 +13,12 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/node_modules/.bin:/usr/local/lib/node_modules/.bin:$PATH"
 
 # Rust
-# root and user
+export PATH="$HOME/.cargo/bin:$PATH"
+# root?
 
 # Go
 export PATH="$PATH/go/bin:$PATH"
-# root
+# root?
 
 # Ruby
 # https://wiki.archlinux.org/index.php/Ruby
