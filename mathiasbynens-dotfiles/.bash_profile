@@ -29,13 +29,13 @@ done;
 # [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # Add tab completion for many Bash commands
-if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
-	# Ensure existing Homebrew v1 completions continue to work
-	export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d";
-	source "$(brew --prefix)/etc/profile.d/bash_completion.sh";
-elif [ -f /etc/bash_completion ]; then
-	source /etc/bash_completion;
-fi;
+# if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+# 	# Ensure existing Homebrew v1 completions continue to work
+# 	export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d";
+# 	source "$(brew --prefix)/etc/profile.d/bash_completion.sh";
+# elif [ -f /etc/bash_completion ]; then
+# 	source /etc/bash_completion;
+# fi;
 
 # Enable tab completion for `g` by marking it as an alias for `git`
 if type _git &> /dev/null; then
@@ -51,3 +51,10 @@ fi;
 
 # Add `killall` tab completion for common apps
 #complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
+
+# Do selective completion for certain things...
+# https://sourabhbajaj.com/mac-setup/BashCompletion/
+source  /usr/local/etc/bash_completion.d/pass
+source  /usr/local/etc/bash_completion.d/pass-otp
+# https://github.com/gopasspw/gopass/issues/273
+source /dev/stdin <<<"$(gopass completion bash)"
