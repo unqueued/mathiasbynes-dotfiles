@@ -1,15 +1,32 @@
 # This should not be for ~/bin and /usr/local/bin
 
+# TODO: Should I only conditionally add these to path if they exist?
+
 # Python
 export PATH="$HOME/.local/bin:$PATH"
+# root?
 
 # node.js
-export PATH="$HOME/node_modules/.bin:$PATH"
+export PATH="$HOME/node_modules/.bin:/usr/local/lib/node_modules/.bin:$PATH"
 
-# Added perl5  paths
+# Rust
+# root and user
+
+# Go
+# root and user
+
+# Ruby
+# https://wiki.archlinux.org/index.php/Ruby
+# Possible to cache this?
+PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
+# root?
+
+# Perl
 #PATH="~/perl5/bin${PATH:+:${PATH}}"; export PATH;
 #PERL5LIB="~/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 #PERL_LOCAL_LIB_ROOT="~/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 #PERL_MB_OPT="--install_base \"~/perl5\""; export PERL_MB_OPT;
 #PERL_MM_OPT="INSTALL_BASE="~/perl5"; export PERL_MM_OPT;
 
+# homebrew coreutils
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
