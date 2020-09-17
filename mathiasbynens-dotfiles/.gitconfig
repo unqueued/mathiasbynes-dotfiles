@@ -86,6 +86,7 @@
 	lls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --show-signature
 
 	add-gh-pr-remote = config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+	fetch-pr = fetch origin  '+refs/pull/*/head:refs/remotes/origin/pr/*'
 
 [apply]
 
