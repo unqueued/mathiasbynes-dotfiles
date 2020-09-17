@@ -219,3 +219,5 @@
 [cola]
 	spellcheck = false
 
+[remote "origin"]
+	#fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
