@@ -51,3 +51,15 @@ shopt -s cdspell;
 for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null;
 done;
+
+# More on GPG/SSH pinentry config
+# https://juliansimioni.com/blog/troubleshooting-gpg-git-commit-signing/
+# https://wiki.gentoo.org/wiki/GnuPG#Changing_pinentry_for_SSH_logins
+
+# Maybe I should also check for if DISPLAY is set??
+# https://superuser.com/questions/1457167/i-want-to-make-pinentry-use-gui-locally-and-cli-on-ssh
+
+if [[ -n "$SSH_CONNECTION" ]]; then
+	export PINENTRY_USER_DATA="USE_CURSES=1"
+fi
+
