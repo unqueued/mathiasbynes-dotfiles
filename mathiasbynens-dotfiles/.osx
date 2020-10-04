@@ -1,1 +1,13 @@
 # 301 https://github.com/mathiasbynens/dotfiles/blob/main/.macos
+
+# Maybe verify that this is running on menumavin-timothy.local?
+# I needed to do these to get react-native working..
+
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home"
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
