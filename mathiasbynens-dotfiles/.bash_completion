@@ -25,9 +25,13 @@ fi;
 # Add `killall` tab completion for common apps
 #complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 
+# TODO
+
 # Do selective completion for certain things...
 # https://sourabhbajaj.com/mac-setup/BashCompletion/
-source  /usr/local/etc/bash_completion.d/pass
-source  /usr/local/etc/bash_completion.d/pass-otp
+#source  /usr/local/etc/bash_completion.d/pass
+#source  /usr/local/etc/bash_completion.d/pass-otp
 # https://github.com/gopasspw/gopass/issues/273
 source /dev/stdin <<<"$(gopass completion bash)"
+
+# uh, I should also copy how it was on on nova as well..
