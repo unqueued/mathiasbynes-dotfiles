@@ -17,7 +17,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # root?
 
 # Go
-export PATH="$PATH/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 # root?
 
 # Ruby
