@@ -224,3 +224,5 @@
 
 [remote "origin"]
 	#fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+[init]
+	defaultBranch = master
