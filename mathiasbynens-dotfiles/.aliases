@@ -69,6 +69,10 @@ alias e16-composite-on='DISPLAY=:0 eesh set compmgr.enable 1 && DISPLAY=:0 eesh 
 # For parsing qr codes
 alias desktop2qr='scrot qr-temp.png && zbarimg --raw qr-temp.png ; rm qr-temp.png'
 
+# For extracting information from android screens
+alias android2text='( adb exec-out screencap -p >  android-temp.png ) ; tesseract android-temp.png android-ocr ; cat android-ocr.txt ;  rm android-temp.png android-ocr.txt'
+alias android2barcode='( adb exec-out screencap -p >  android-temp.png ) ; zbarimg --raw android-temp.png ; rm android-temp.png'
+
 # rsync as drop in replacement for scp
 # https://news.ycombinator.com/item?id=23579107
 alias scp='rsync -av '

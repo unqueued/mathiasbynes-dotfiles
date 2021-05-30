@@ -212,6 +212,8 @@
 
 [annex]
 	genmetadata = true
+#	largefiles = largerthan=4kb
+#	dotfiles = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
